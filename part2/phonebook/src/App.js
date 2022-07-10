@@ -10,12 +10,15 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
-    const personObject = {
-      name: newName,
+    const existed = persons.find((element) => element.name === newName)
+    if (existed) {
+      alert(`${newName} is already added to phonebook `)
+    } else {
+      const personObject = { name: newName }
+      const newPersons = persons.concat(personObject)
+      setPersons(newPersons)
+      setNewName('')
     }
-    const newPersons = persons.concat(personObject)
-    setPersons(newPersons)
-    setNewName('')
   }
 
   return (
