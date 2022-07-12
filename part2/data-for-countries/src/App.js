@@ -9,12 +9,30 @@ const Search = ({ query, queryHandler }) => (
 )
 
 const ListOfCountries = ({ countries }) => {
+  const [showSingleCountry, setShowSingleCountry] = useState(false)
+  const [countryToShow, setCountryToShow] = useState('')
+
+  const handleToggole = (country) => {
+    return () => {
+      console.log('country to show: ', country.name.common)
+      setShowSingleCountry(!showSingleCountry)
+      setCountryToShow(country)
+    }
+  }
+
   return (
     <div>
-      {countries.map((element) => {
-        console.log('element, ', element)
-        return <div>{element.name.common}</div>
-      })}
+      {!showSingleCountry && (
+        <div>
+          {countries.map((element, index) => (
+            <div key={index}>
+              {element.name.common}{' '}
+              <button onClick={handleToggole(element)}>show</button>
+            </div>
+          ))}
+        </div>
+      )}
+      {showSingleCountry && <Country country={countryToShow} />}
     </div>
   )
 }
@@ -40,16 +58,6 @@ const Country = ({ country }) => {
   )
 }
 
-const Display = ({ countries }) => {
-  if (countries.length > 10) {
-    return <div>Too many matches, specify another filter</div>
-  } else if (countries.length === 1) {
-    return <Country country={countries[0]} />
-  } else {
-    return <ListOfCountries countries={countries} />
-  }
-}
-
 const App = () => {
   const [query, setQuery] = useState('')
   const [countries, setCountries] = useState([])
@@ -73,7 +81,13 @@ const App = () => {
   return (
     <div>
       <Search query={query} queryHandler={handleQueryChange} />
-      {countries.length > 0 && <Display countries={countries} />}
+      {countries.length > 10 && (
+        <div>Too many matches, specify another filter</div>
+      )}
+      {countries.length > 1 && countries.length <= 10 && (
+        <ListOfCountries countries={countries} />
+      )}
+      {countries.length === 1 && <Country country={countries[0]} />}
     </div>
   )
 }
