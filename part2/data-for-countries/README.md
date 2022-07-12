@@ -1,7 +1,11 @@
 # Data For Countries
 
 ## API used:
+
+### Data for Country
 https://restcountries.com
+### Data for Capital Weather
+https://openweathermap.org
 
 ## What this app does:
 
