@@ -17,7 +17,7 @@ const App = () => {
     personService
       .getAll()
       .then((initialPersons) => {
-        setPersons([...initialPersons, { name: 'blah', number: '11', id: 999 }])
+        setPersons(initialPersons)
       })
       .catch((error) => {
         console.log(error.message)
@@ -40,6 +40,43 @@ const App = () => {
     setFilter(event.target.value)
   }
 
+  const handleRemove = (id, name) => {
+    return () => {
+      deletePerson(id, name)
+    }
+  }
+
+  const updatePerson = (existed, newNumber) => {
+    const personObject = { name: existed.name, number: newNumber }
+    personService
+      .update(existed.id, personObject)
+      .then((updatedPerson) => {
+        const newPersons = persons.map((element) =>
+          element.name !== existed.name ? element : updatedPerson
+        )
+        setPersons(newPersons)
+        setNewName('')
+        setNewNumber('')
+        setErrorMessage({
+          type: 'info',
+          content: `${updatedPerson.name} updated successfully`,
+        })
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+      })
+      .catch((error) => {
+        console.log(error.message)
+        setErrorMessage({
+          type: 'alert',
+          content: `${existed.name} has already been removed from server`,
+        })
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+      })
+  }
+
   const addPerson = (event) => {
     event.preventDefault()
     const existed = persons.find((element) => element.name === newName)
@@ -49,34 +86,7 @@ const App = () => {
         `${newName} is already added to phonebook, replace the old number with a new one? `
       )
     ) {
-      const personObject = { name: existed.name, number: newNumber }
-      personService
-        .update(existed.id, personObject)
-        .then((updatedPerson) => {
-          const newPersons = persons.map((element) =>
-            element.name !== existed.name ? element : updatedPerson
-          )
-          setPersons(newPersons)
-          setNewName('')
-          setNewNumber('')
-          setErrorMessage({
-            type: 'info',
-            content: `${updatedPerson.name} updated successfully`,
-          })
-          setTimeout(() => {
-            setErrorMessage(null)
-          }, 5000)
-        })
-        .catch((error) => {
-          console.log(error.message)
-          setErrorMessage({
-            type: 'alert',
-            content: `${existed.name} has already been removed from server`,
-          })
-          setTimeout(() => {
-            setErrorMessage(null)
-          }, 5000)
-        })
+      updatePerson(existed, newNumber)
     } else if (!existed) {
       const personObject = { name: newName, number: newNumber }
 
@@ -105,32 +115,30 @@ const App = () => {
     }
   }
 
-  const handleRemove = (id, name) => {
-    return () => {
-      if (window.confirm(`Delete ${name}?`)) {
-        personService
-          .remove(id)
-          .then((response) => {
-            setPersons(persons.filter((element) => element.id !== id))
-            setErrorMessage({
-              type: 'info',
-              content: `${name} deleted successfully`,
-            })
-            setTimeout(() => {
-              setErrorMessage(null)
-            }, 5000)
+  const deletePerson = (id, name) => {
+    if (window.confirm(`Delete ${name}?`)) {
+      personService
+        .remove(id)
+        .then((response) => {
+          setPersons(persons.filter((element) => element.id !== id))
+          setErrorMessage({
+            type: 'info',
+            content: `${name} deleted successfully`,
           })
-          .catch((error) => {
-            console.log('here in catch', error.message)
-            setErrorMessage({
-              type: 'alert',
-              content: `${name} has already been removed from server`,
-            })
-            setTimeout(() => {
-              setErrorMessage(null)
-            }, 5000)
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
+        })
+        .catch((error) => {
+          console.log('here in catch', error.message)
+          setErrorMessage({
+            type: 'alert',
+            content: `${name} has already been removed from server`,
           })
-      }
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
+        })
     }
   }
 
