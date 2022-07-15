@@ -18,8 +18,7 @@
 ## Part 2:
 
 ### How to render a data collection , like a list of names?
-  1. The use of Keys: Keys serve as a hint to React but they don’t get passed to your components. If you need the same value in your component, pass it explicitly as a prop with a different name:
-  2. When children have keys, React uses the key to match children in the original tree with children in the subsequent tree.
+  The use of Keys: Keys serve as a hint to React. When children have keys, React uses the key to match children in the original tree with children in the subsequent tree. NB: But they don’t get passed to your components. If you need the same value in your component, pass it explicitly as a prop with a different name. 
   
 ### JavaScript Engines, or runtime enviornments, follows the *asynchronous* model. 
   1. Currently, JavaScript engines are **single-threaded**, which means that they cannot execute code in parallel. 
@@ -32,10 +31,10 @@
   5. Explain JavaScript runtime environment model: It consists of a Heap, a Stack, Web APIs, a **event loop + a queue**...
   ![image](https://user-images.githubusercontent.com/108560114/179148904-e9678fc7-cbb9-48a2-b9d3-af66b99a422f.png)
 
-#### What is the difference between a **runtime dependency** (npm install) and a **development dependency** (npm install --save-dev)?? 
+### What is the difference between a **runtime dependency** (npm install) and a **development dependency** (npm install --save-dev)?
 
-### How a user can submit data to a React app using HTML forms?
-  1. To access the data contained in the form's *input* element, we use **controlled components** : ( we assigned a piece of the App component's state as the value attribute of the input element, the App component now controls the behavior of the input element)
+###  Abbout HTML Form: How access the data contained in the Form's *input* element?
+ we use **controlled components**  (assigned a piece of the App component's state as the value attribute of the input element, the App component now controls the behavior of the input element)
   
 ### How JavaScript code in the browser can fetch and handle data stored in a remote backend server?
   1. A **Promise** is an object representing the eventual completion or failure of an asynchronous operation.
