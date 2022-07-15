@@ -31,11 +31,8 @@
   5. Explain JavaScript runtime environment model: It consists of a Heap, a Stack, Web APIs, a **event loop + a queue**...
   ![image](https://user-images.githubusercontent.com/108560114/179148904-e9678fc7-cbb9-48a2-b9d3-af66b99a422f.png)
 
-### What is the difference between a **runtime dependency** (npm install) and a **development dependency** (npm install --save-dev)?
+  6. What is the difference between a **runtime dependency** (npm install) and a **development dependency** (npm install --save-dev)?
 
-###  Abbout HTML Form: How access the data contained in the Form's *input* element?
- we use **controlled components**  (assigned a piece of the App component's state as the value attribute of the input element, the App component now controls the behavior of the input element)
-  
 ### How JavaScript code in the browser can fetch and handle data stored in a remote backend server?
   1. A **Promise** is an object representing the eventual completion or failure of an asynchronous operation.
   2. Three distinct states of a Promise:
@@ -44,13 +41,16 @@
       - The promise is *rejected*: It means that an error prevented the final value from being determined, which generally represents a failed operation.
   3. Since the data we sent in the POST request was a JavaScript object, axios automatically knew to set the appropriate application/json value for the Content-Type header.
   4. The data returned by the server is plain text, basically just one long string. The axios library is still able to parse the data into a JavaScript array, since the server has specified that the data format is application/json; charset=utf-8 (see previous image) using the content-type header.
+  5. ####  About HTML Form: How to access the data contained in the Form's *input* element?
+       we use **controlled components**  (assigned a piece of the App component's state as the value attribute of the input element, the App component now controls the behavior of the input element)
+  
 
 ### React dev server:
-> The browser gets the JavaScript from the React dev server, which is the application that runs after running the command npm start. 
+> The **browser gets the JavaScript from the React dev server**, which is the application that runs after running the command npm start. 
 > The dev-server transforms the JavaScript into a format understood by the browser. Among other things, it stitches together JavaScript from different files into one file.
       
 ### Simple ways of adding CSS styles to a React app.
-1. import css file: CSS rules comprise of selectors and declarations. The selector defines which elements the rule should be applied to. 
+1. Import CSS files: CSS rules comprise of selectors and declarations. The selector defines which elements the rule should be applied to. 
 
 2. Inline Style: 
       - The idea behind defining inline styles is extremely simple. Any React component or element can be provided with a set of CSS properties as a JavaScript object through the style attribute.
