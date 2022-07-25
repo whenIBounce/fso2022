@@ -79,7 +79,7 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
-    /* const existed = persons.find((element) => element.name === newName)
+    const existed = persons.find((element) => element.name === newName)
     if (
       existed &&
       window.confirm(
@@ -87,32 +87,34 @@ const App = () => {
       )
     ) {
       updatePerson(existed, newNumber)
-    } */
-    
-    const personObject = { name: newName, number: newNumber }
+    } else if(!existed){
+      const personObject = { name: newName, number: newNumber }
 
-    personService
-      .create(personObject)
-      .then((newPerson) => {
-        const newPersons = persons.concat(newPerson)
-        setPersons(newPersons)
-        setNewName('')
-        setNewNumber('')
-        setErrorMessage({
-          type: 'info',
-          content: `${newPerson.name} added successfully`,
+      personService
+        .create(personObject)
+        .then((newPerson) => {
+          const newPersons = persons.concat(newPerson)
+          setPersons(newPersons)
+          setNewName('')
+          setNewNumber('')
+          setErrorMessage({
+            type: 'info',
+            content: `${newPerson.name} added successfully`,
+          })
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
         })
-        setTimeout(() => {
-          setErrorMessage(null)
-        }, 5000)
-      })
-      .catch((error) => {
-        console.log(error.message)
-        setErrorMessage({ type: 'alert', content: error.message })
-        setTimeout(() => {
-          setErrorMessage(null)
-        }, 5000)
-      })
+        .catch((error) => {
+          console.log(error.message)
+          setErrorMessage({ type: 'alert', content: error.message })
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
+        })
+    }
+    
+    
   }
 
   const deletePerson = (id, name) => {
