@@ -13,7 +13,6 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
-    console.log('inital persons')
     personService
       .getAll()
       .then((initialPersons) => {
@@ -69,7 +68,7 @@ const App = () => {
         console.log(error.message)
         setErrorMessage({
           type: 'alert',
-          content: `${existed.name} has already been removed from server`,
+          content: error.message,
         })
         setTimeout(() => {
           setErrorMessage(null)
