@@ -65,10 +65,10 @@ const App = () => {
         }, 5000)
       })
       .catch((error) => {
-        console.log(error.message)
+        console.log(error)
         setErrorMessage({
           type: 'alert',
-          content: error.message,
+          content: error.err.message,
         })
         setTimeout(() => {
           setErrorMessage(null)
