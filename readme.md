@@ -5,7 +5,7 @@
 - how browser communicates with server
 
 ## Part 1:
-- projects in this part demonstrate the use of *functional components* and *State Hook*
+projects in this part demonstrate the use of *functional components* and *State Hook*
 ### NB on **State**: 
   1. it is **forbidden in React to mutate state directly**, since it can result in unexpected side effects.
   2. The useState function (as well as the useEffect function) **must not be called from inside of a loop, a conditional expression**, or any place that is not a function defining a component.
@@ -18,7 +18,7 @@
 ## Part 2:
 
 ### How to render a data collection , like a list of names?
-  The use of Keys: Keys serve as a hint to React. When children have keys, React uses the key to match children in the original tree with children in the subsequent tree. NB: But they don’t get passed to your components. If you need the same value in your component, pass it explicitly as a prop with a different name. 
+  The use of Keys: Keys serve as a hint to React. When children have keys, React uses the key to match children in the original tree with children in the subsequent tree. **NB**: But they don’t get passed to your components. If you need the same value in your component, pass it explicitly as a prop with a different name. 
   
 ### JavaScript Engines, or runtime enviornments, follows the *asynchronous* model. 
   1. Currently, JavaScript engines are **single-threaded**, which means that they cannot execute code in parallel. 
@@ -27,11 +27,10 @@
       This offers some nice properties when reasoning about your program, including the fact that whenever a function runs, it cannot be preempted and will run entirely before any other code runs (and can modify data the function manipulates). This differs from C, for instance, where if a function runs in a thread, it may be stopped at any point by the runtime system to run some other code in another thread.
   
   3. As a result, it is a requirement in practice to **use a non-blocking model for executing IO operations**. Otherwise, the browser would "freeze" during, for instance, the fetching of data from a server.
-  4. Another consequence of this single-threaded nature of JavaScript engines is that if some code execution takes up a lot of time, the browser will get stuck for the duration of the execution.
-  5. Explain JavaScript runtime environment model: It consists of a Heap, a Stack, Web APIs, a **event loop + a queue**...
+  
+  4. Explain JavaScript runtime environment model: It consists of a Heap, a Stack, Web APIs, a **event loop + a queue**...
   ![image](https://user-images.githubusercontent.com/108560114/179148904-e9678fc7-cbb9-48a2-b9d3-af66b99a422f.png)
 
-  6. What is the difference between a **runtime dependency** (npm install) and a **development dependency** (npm install --save-dev)?
 
 ### How JavaScript code in the browser can fetch and handle data stored in a remote backend server?
   1. A **Promise** is an object representing the eventual completion or failure of an asynchronous operation.
