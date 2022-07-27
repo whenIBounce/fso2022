@@ -68,7 +68,7 @@ const App = () => {
         console.log(error)
         setErrorMessage({
           type: 'alert',
-          content: error.err.message,
+          content: error.response.data.err,
         })
         setTimeout(() => {
           setErrorMessage(null)
@@ -106,7 +106,7 @@ const App = () => {
         })
         .catch((error) => {
           console.log(error.message)
-          setErrorMessage({ type: 'alert', content: error.message })
+          setErrorMessage({ type: 'alert', content: error.response.data.err })
           setTimeout(() => {
             setErrorMessage(null)
           }, 5000)
