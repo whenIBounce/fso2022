@@ -1,4 +1,13 @@
-# Projects from Full Stack Open Course 2022
+- [Part 0:](#part-0)
+- [Part 1:](#part-1)
+  - [NB on **State**:](#nb-on-state)
+  - [NB on **components**:](#nb-on-components)
+- [Part 2:](#part-2)
+  - [How to render a data collection , like a list of names?](#how-to-render-a-data-collection--like-a-list-of-names)
+  - [JavaScript Engines, or runtime enviornments, follows the *asynchronous* model.](#javascript-engines-or-runtime-enviornments-follows-the-asynchronous-model)
+  - [How JavaScript code in the browser can fetch and handle data stored in a remote backend server?](#how-javascript-code-in-the-browser-can-fetch-and-handle-data-stored-in-a-remote-backend-server)
+  - [React dev server:](#react-dev-server)
+  - [Simple ways of adding CSS styles to a React app.](#simple-ways-of-adding-css-styles-to-a-react-app)
 ## Part 0:
 - difference between traditional web development and AJAX
 - single page app
