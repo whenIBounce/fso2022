@@ -2,9 +2,25 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-  "title": "test POST blog",
+  "title": "test requestLogger middleware",
   "author": "hugu",
   "url": "www.meizizi.com",
   "likes": 22
 }
+
+###
+GET http://localhost:3003/api/blow
+
+###
+POST http://localhost:3003/api/blogs 
+Content-Type: application/json
+
+{
+  "title": "test errorHander middleware",
+  "author": "hugu",
+  "url": "www.meizizi.com",
+  "likes": "likes should not be a string"
+}
+
+
 
