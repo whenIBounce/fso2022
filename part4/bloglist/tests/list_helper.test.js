@@ -9,7 +9,7 @@ const listWithOneBlog = [
 		__v: 0
 	}
 ]
-const blogs = [
+const listWithMultipleBlogs = [
 	{
 		_id: '5a422a851b54a676234d17f7',
 		title: 'React patterns',
@@ -69,7 +69,7 @@ describe('total likes', () => {
 		expect(result).toBe(5)
 	})
 	test('when list has multiple blogs, equals the likes of that', () => {
-		const result = listHelper.totalLikes(blogs)
+		const result = listHelper.totalLikes(listWithMultipleBlogs)
 		expect(result).toBe(36)
 	})
 })
@@ -77,20 +77,40 @@ describe('total likes', () => {
 describe('favorite blog', () => {
 	test('when list has only one blog, its favorite blog', () => {
 		const result = listHelper.favoriteBlog(listWithOneBlog)
-		const expectedValue = {
+		const expected = {
 			title: 'Go To Statement Considered Harmful',
 			author: 'Edsger W. Dijkstra',
 			likes: 5
 		}
-		expect(result).toEqual(expectedValue)
+		expect(result).toEqual(expected)
 	})
 	test('when list has multiple blogs, its favorite blog', () => {
-		const result = listHelper.favoriteBlog(blogs)
-		const expectedValue = {
+		const result = listHelper.favoriteBlog(listWithMultipleBlogs)
+		const expected = {
 			title: 'Canonical string reduction',
 			author: 'Edsger W. Dijkstra',
 			likes: 12
 		}
-		expect(result).toEqual(expectedValue)
+		expect(result).toEqual(expected)
+	})
+})
+
+describe('author with most blogs', () => {
+	test('list has one author', () => {
+		const expected = {
+			author: 'Edsger W. Dijkstra',
+			blogs: 1
+		}
+		const result = listHelper.mostBlogs(listWithOneBlog)
+		expect(result).toEqual(expected)
+	})
+
+	test('list has multiple authors', () => {
+		const expected = {
+			author: 'Robert C. Martin',
+			blogs: 3
+		}
+		const result = listHelper.mostBlogs(listWithMultipleBlogs)
+		expect(result).toEqual(expected)
 	})
 })

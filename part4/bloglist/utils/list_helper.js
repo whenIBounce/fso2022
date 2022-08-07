@@ -1,5 +1,4 @@
-const nodemon = require("nodemon");
-
+var _ = require('lodash')
 const dummy = () => {
 	return 1
 }
@@ -19,6 +18,17 @@ const favoriteBlog = (blogs) => {
 	}
 }
 
+const mostBlogs = (bloglist) => {
+	var result = _.chain(bloglist)
+		.groupBy('author')
+		.map((value, key) => ({ author: key, blogs: value.length }))
+		.reduce((max, item) => {
+			return max.blogs > item.blogs ? max : item
+		})
+		.value()
+	return result
+}
+
 module.exports = {
-	dummy, totalLikes, favoriteBlog
+	dummy, totalLikes, favoriteBlog, mostBlogs
 }
