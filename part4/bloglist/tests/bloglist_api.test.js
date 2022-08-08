@@ -51,6 +51,18 @@ test('creates a new blog post', async () => {
 	expect(titles).toContain('test HTTP POST')
 }, 100000)
 
+test('likes property is missing from the HTTP POST request', async () => {
+	const blogWithoutLikes = {
+		title: 'test HTTP POST without likes property',
+		author: 'Lao Chang',
+		url: 'https://magicTiaTia.com/',
+	}
+	const response = await api
+		.post('/api/blogs')
+		.send(blogWithoutLikes)
+	expect(response.body.likes).toBe(0)
+}, 100000)
+
 //after all close the mongoose connection
 afterAll(() => {
 	mongoose.connection.close()
