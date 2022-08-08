@@ -1,8 +1,8 @@
 //import mongoose, supertest, app
 const mongoose = require('mongoose')
 const supertest = require('supertest')
-const app = require('../app');
-const Blog = require('../models/blog');
+const app = require('../app')
+const Blog = require('../models/blog')
 const helper = require('./test_helper')
 
 //get superagent with supertest(app)
