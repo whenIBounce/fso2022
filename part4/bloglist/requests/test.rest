@@ -9,7 +9,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3003/api/blow
+GET http://localhost:3003/api/blogs
 
 ###
 POST http://localhost:3003/api/blogs 
@@ -21,6 +21,10 @@ Content-Type: application/json
   "url": "www.meizizi.com",
   "likes": "likes should not be a string"
 }
+
+###
+DELETE http://localhost:3003/api/blogs/62e7dfd3913ef16806d9a1a8
+
 
 
 
