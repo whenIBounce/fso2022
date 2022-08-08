@@ -76,12 +76,22 @@ test('title and url properties are missing from the HTTP POST request', async ()
 test('HTTP DELETE by id', async () => {
 	const blogsAtBegin = await helper.blogsInDb()
 	const idToBeDeleted = blogsAtBegin[0].id
-	console.log(`idToBeDeleted: ${idToBeDeleted}, type: ${typeof(idToBeDeleted)}`)
 	await api
 		.delete(`/api/blogs/${idToBeDeleted}`)
 		.expect(204)
 	const blogsAtEnd = await helper.blogsInDb()
 	expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length-1)
+}, 100000)
+
+test('HTTP POST by id', async () => {
+	const blogsAtBegin = await helper.blogsInDb()
+	const idToBeUpdated = blogsAtBegin[0].id
+	const unupdatedBlog = blogsAtBegin[0]
+	const blog = { ...unupdatedBlog, likes: unupdatedBlog.likes+1 }
+	const updatedBlog = await api
+		.put(`/api/blogs/${idToBeUpdated}`)
+		.send(blog)
+	expect(updatedBlog.body.likes).toBe(unupdatedBlog.likes+1)
 }, 100000)
 
 //after all close the mongoose connection
