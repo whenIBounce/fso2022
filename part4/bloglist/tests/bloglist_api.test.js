@@ -2,18 +2,18 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
-const Blog = require('../models/blog')
 const helper = require('./test_helper')
-
 //get superagent with supertest(app)
 const api = supertest(app)
+
+const Blog = require('../models/blog')
 
 beforeEach(async () => {
 	await Blog.deleteMany({})
 	let blogObjects = helper.initialBlogs.map(blog => new Blog(blog))
 	let promiseArray = blogObjects.map(blogObject => blogObject.save())
 	await Promise.all(promiseArray)
-}, 1000000)
+}, 100000)
 
 //start test
 test('blogs are returned as json', async () => {
@@ -31,6 +31,24 @@ test('all blogs are returned', async () => {
 test('identifier property of the blog posts is named id', async () => {
 	const response = await api.get('/api/blogs')
 	expect(response.body[0].id).toBeDefined()
+}, 100000)
+
+test('creates a new blog post', async () => {
+	const blogToSave = {
+		title: 'test HTTP POST',
+		author: 'Lao Chang',
+		url: 'https://magicTiaTia.com/',
+		likes: 7,
+	}
+	await api
+		.post('/api/blogs')
+		.send(blogToSave)
+		.expect(201)
+		.expect('Content-Type', /application\/json/)
+	const blogsAtEnd = await helper.blogsInDb()
+	expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length+1)
+	const titles = blogsAtEnd.map(blog => blog.title)
+	expect(titles).toContain('test HTTP POST')
 }, 100000)
 
 //after all close the mongoose connection
