@@ -63,6 +63,16 @@ test('likes property is missing from the HTTP POST request', async () => {
 	expect(response.body.likes).toBe(0)
 }, 100000)
 
+test('title and url properties are missing from the HTTP POST request', async () => {
+	const blogWithoutTitleAndUrl = {
+		author: 'Lao Chang',
+	}
+	await api
+		.post('/api/blogs')
+		.send(blogWithoutTitleAndUrl)
+		.expect(400)
+}, 100000)
+
 //after all close the mongoose connection
 afterAll(() => {
 	mongoose.connection.close()
