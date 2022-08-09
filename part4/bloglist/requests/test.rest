@@ -61,3 +61,13 @@ Content-Type: application/json
 GET http://localhost:3003/api/users
 
 
+###
+POST  http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "aa",
+    "name": "Superuser",
+    "password": "salainen"
+}
+

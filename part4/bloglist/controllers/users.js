@@ -6,6 +6,9 @@ const User = require('../models/user')
 //define route handlers
 usersRouter.post('/', async (request, response) => {
 	const body = request.body
+	if(body.password.length < 3){
+		response.status(400).json({ error: 'password must have at least three characters' })
+	}
 	const saltRounds = 9
 	const passwordHash = await bcrypt.hash(body.password, saltRounds)
 	const user = new User({
