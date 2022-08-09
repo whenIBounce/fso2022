@@ -9,6 +9,11 @@ usersRouter.post('/', async (request, response) => {
 	if(body.password.length < 3){
 		response.status(400).json({ error: 'password must have at least three characters' })
 	}
+	const username = body.username
+	const existingUser = await User.findOne({ username })
+	if(existingUser){
+		response.status(400).json({ error: 'username must be unique' })
+	}
 	const saltRounds = 9
 	const passwordHash = await bcrypt.hash(body.password, saltRounds)
 	const user = new User({
@@ -21,7 +26,7 @@ usersRouter.post('/', async (request, response) => {
 })
 
 usersRouter.get('/', async (request, response) => {
-	const users = await User.find({})
+	const users = await User.find({}).populate('blogs', { url: 1, title: 1, author: 1, id: 1 })
 	response.json(users)
 })
 //export Router

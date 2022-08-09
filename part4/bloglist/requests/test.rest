@@ -16,10 +16,11 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-  "title": "test errorHander middleware",
-  "author": "hugu",
+  "title": "0000000000000000",
+  "author": "999999999",
   "url": "www.meizizi.com",
-  "likes": "likes should not be a string"
+  "likes": 999,
+  "userId": "62f1d95d2496504c104d7c56"
 }
 
 ###
