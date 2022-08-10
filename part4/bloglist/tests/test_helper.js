@@ -1,6 +1,6 @@
 const Blog = require('../models/blog')
 const User = require('../models/user')
-
+const jwt = require('jsonwebtoken')
 const initialBlogs =  [
 	{
 		title: 'React patterns',
@@ -50,7 +50,24 @@ const usersInDb = async () => {
 	return users.map(user => user.toJSON())
 }
 
+const createAndLoginUser = async () => {
+
+	const root = new User({
+		username: 'aaa',
+		name: 'Superuser',
+		password: 'salainen'
+	})
+	const user = await root.save()
+	const userForToken = {
+		username: user.username,
+		id: user._id
+	}
+	const token =  await jwt.sign(userForToken, process.env.SECRET)
+	console.log(`token created ${token}`)
+	return token
+}
+
 
 module.exports = {
-	initialBlogs, blogsInDb, usersInDb
+	initialBlogs, blogsInDb, usersInDb, createAndLoginUser
 }

@@ -34,7 +34,7 @@ const tokenExtractor = (request, response, next) => {
 		//put the token in request's field
 		request.token  = auth.substring(7)
 	}else{
-		return response.status(400).json({ error: 'authorization error'})
+		return response.status(401).json({ error:'token missing' })
 	}
 	next()
 }
@@ -48,6 +48,8 @@ const userExtractor = async (request, response, next) => {
 		}else{
 			request.user = user
 		}
+	}else{
+		return response.status(401).json({ error: 'invalid token' })
 	}
 	next()
 }
