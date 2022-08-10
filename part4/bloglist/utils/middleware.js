@@ -21,4 +21,10 @@ const errorHandler = (error, request, response, next) => {
 	next(error)
 }
 
-module.exports = { requestLogger, unknownEndpoint, errorHandler }
+const tokenExtractor = (request, response, next) => {
+	//get authorization header from request
+	//if header exists && authScheme is Bearer, extract token
+	//put the token in request's field
+}
+
+module.exports = { requestLogger, unknownEndpoint, errorHandler, tokenExtractor }

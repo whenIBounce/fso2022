@@ -84,3 +84,14 @@ Content-Type: application/json
 ###
 DELETE http://localhost:3003/api/users
 
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFhYSIsImlkIjoiNjJmMWY5ZGIwNDI5YjA3OWVhNTJjZjcxIiwiaWF0IjoxNjYwMDk3NjUzfQ.cRTgAwALvOP6gw1AOh_L_YL09aMGgIh7b55Bsp88-ps
+
+{
+  "title": "limit create new blog to logged in user",
+  "author": "hugu",
+  "url": "www.meizizi.com",
+  "likes": 10000
+}
