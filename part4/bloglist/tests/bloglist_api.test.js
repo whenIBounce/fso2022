@@ -21,12 +21,6 @@ beforeEach(async () => {
 }, 1000000)
 
 //start test
-test('blogs are returned as json', async () => {
-	await api
-		.get('/api/blogs')
-		.expect(200)
-		.expect('Content-Type', /application\/json/)
-}, 100000)
 
 test('all blogs are returned', async () => {
 	const response = await api.get('/api/blogs')
