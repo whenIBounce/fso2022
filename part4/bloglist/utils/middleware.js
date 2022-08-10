@@ -17,6 +17,8 @@ const errorHandler = (error, request, response, next) => {
 		return response.status(400).send({ error: error.message })
 	} else if (error.name === 'ValidationError') {
 		return response.status(400).json({ error: error.message })
+	} else if (error.name === 'JsonWebTokenError') {
+		return response.status(401).json({ error: 'invalid token' })
 	}
 	next(error)
 }
@@ -27,11 +29,11 @@ const tokenExtractor = (request, response, next) => {
 	const auth = request.get('authorization')
 	//if header exists && authScheme is Bearer, extract token
 	if(auth && auth.startsWith('Bearer ')){
-		token = auth.substring(7)
 		//put the token in request's field
+		token = auth.substring(7)
 	}
-	request.token = token
 	//console.log(`request.token ${JSON.stringify(request.token)}`)
+	request.token = token
 	next()
 }
 

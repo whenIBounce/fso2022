@@ -16,7 +16,6 @@ blogsRouter.post('/', async (request, response) => {
 	const decodedToken = jwt.verify(request.token, process.env.SECRET)
 	// console.log(`decodedToken: ${JSON.stringify(decodedToken)}`)
 	if(!decodedToken.id){ // if(!decodedToken) ?
-		console.log('decodedToken resolves to False or null')
 		response.status(401).json({ error: 'token missing or invalid' })
 	}
 
@@ -38,9 +37,25 @@ blogsRouter.post('/', async (request, response) => {
 	response.status(201).json(savedBlog)
 })
 
-blogsRouter.delete('/:id', async (request, response) => {
-	await Blog.findByIdAndRemove(request.params.id)
-	response.status(204).end()
+blogsRouter.delete('/:id', async (request, response, next) => {
+	//decode the token
+	const decodedToken = jwt.verify(request.token, process.env.SECRET)
+	//verify that the creator and deleter of this blog is the same user
+	const deletorId = decodedToken.id
+	const theblog = await Blog.findById(request.params.id)
+	if(theblog){
+		const creatorId = theblog.user.toString()
+
+		const sameUser = deletorId === creatorId
+		//delete the blog if sameUser
+		if(sameUser){
+			await Blog.findByIdAndRemove(request.params.id)
+			response.status(204).end()
+		}else{
+			response.status(401).json({ error: 'A blog can be deleted only by the user who added the blog.' })
+		}
+	}
+	next()
 })
 
 blogsRouter.put('/:id', async (request, response) => {
