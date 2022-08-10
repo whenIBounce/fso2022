@@ -1,6 +1,5 @@
 //import bcrypy, express().Router, User model
-const bcrypt = require('bcrypt');
-const { response } = require('../app');
+const bcrypt = require('bcrypt')
 const usersRouter = require('express').Router()
 const User = require('../models/user')
 

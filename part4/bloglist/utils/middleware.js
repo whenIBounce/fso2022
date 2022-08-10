@@ -22,9 +22,17 @@ const errorHandler = (error, request, response, next) => {
 }
 
 const tokenExtractor = (request, response, next) => {
+	let token = ''
 	//get authorization header from request
+	const auth = request.get('authorization')
 	//if header exists && authScheme is Bearer, extract token
-	//put the token in request's field
+	if(auth && auth.startsWith('Bearer ')){
+		token = auth.substring(7)
+		//put the token in request's field
+	}
+	request.token = token
+	//console.log(`request.token ${JSON.stringify(request.token)}`)
+	next()
 }
 
 module.exports = { requestLogger, unknownEndpoint, errorHandler, tokenExtractor }
