@@ -46,21 +46,35 @@ blogsRouter.delete('/:id', middleware.userExtractor, async (request, response, n
 	}
 	next()
 })
+//mainly update 'likes' property of a blog
+blogsRouter.put('/:id', middleware.userExtractor, async (request, response, next) => {
+	//verify that the creator and deleter of this blog is the same user
+	const user = request.user
+	const theblog = await Blog.findById(request.params.id)
 
-blogsRouter.put('/:id', async (request, response) => {
-	const body = request.body
-	console.log(`update request.body, ${body}`)
-	const blog = {
-		title: body.title,
-		author: body.author,
-		url: body.url,
-		likes: body.likes
+	if(theblog){
+		const creatorId = theblog.user.toString()
+		const sameUser = user.id === creatorId
+		//delete the blog if sameUser
+		if(sameUser){
+			const body = request.body
+			const blog = {
+				title: body.title,
+				author: body.author,
+				url: body.url,
+				likes: body.likes
+			}
+			const updatedBlog = await Blog
+				.findByIdAndUpdate(
+					request.params.id,
+					blog,
+					{ new: true, runValidators: true, context: 'query' } )
+			response.json(updatedBlog)
+		}else{
+			return response.status(401).json({ error: 'A blog can be updated only by the user who added the blog.' })
+		}
 	}
-	const updatedBlog = await Blog
-		.findByIdAndUpdate(
-			request.params.id,
-			blog,
-			{ new: true, runValidators: true, context: 'query' } )
-	response.json(updatedBlog)
+	next()
 })
+
 module.exports = blogsRouter

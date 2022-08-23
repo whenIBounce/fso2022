@@ -5,7 +5,6 @@ const app = require('../app')
 const helper = require('./test_helper')
 //get superagent with supertest(app)
 const api = supertest(app)
-const jwt = require('jsonwebtoken')
 
 const Blog = require('../models/blog')
 const User = require('../models/user')
@@ -52,6 +51,7 @@ test('creates a blog with a token', async () => {
 	expect(blogsAtEnd).toHaveLength(1)
 	const titles = blogsAtEnd.map(blog => blog.title)
 	expect(titles).toContain('create a new blog with token')
+
 }, 100000)
 
 test('creates a blog without a token', async () => {
@@ -72,8 +72,7 @@ test('creates a blog without a token', async () => {
 }, 100000)
 
 
-
-test('likes property is missing from the HTTP POST request', async () => {
+test('creates a blog without like property', async () => {
 	const blogWithoutLikes = {
 		title: 'test HTTP POST without likes property',
 		author: 'Lao Chang',
@@ -81,39 +80,79 @@ test('likes property is missing from the HTTP POST request', async () => {
 	}
 	const response = await api
 		.post('/api/blogs')
+		.set('Authorization', `Bearer ${token}`)
 		.send(blogWithoutLikes)
+
 	expect(response.body.likes).toBe(0)
 }, 100000)
 
-test('title and url properties are missing from the HTTP POST request', async () => {
+test('creates a blog without title and url properties', async () => {
 	const blogWithoutTitleAndUrl = {
 		author: 'Lao Chang',
 	}
 	await api
 		.post('/api/blogs')
+		.set('Authorization', `Bearer ${token}`)
 		.send(blogWithoutTitleAndUrl)
 		.expect(400)
 }, 100000)
 
-test('HTTP DELETE by id', async () => {
-	const blogsAtBegin = await helper.blogsInDb()
-	const idToBeDeleted = blogsAtBegin[0].id
+test('delete a blog, the creator and the deletor is the same user', async () => {
+	// const blogsAtBegin = await helper.blogsInDb()
+	// const idToBeDeleted = blogsAtBegin[0].id
+	// await api
+	// 	.delete(`/api/blogs/${idToBeDeleted}`)
+	// 	.expect(204)
+	// const blogsAtEnd = await helper.blogsInDb()
+	// expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length-1)
+	const tmpBlog = 	{
+		title: 'tmp blog',
+		author: 'Michael Chan',
+		url: 'https://reactpatterns.com/',
+		likes: 7,
+	}
+	const response = await api
+		.post('/api/blogs')
+		.set('Authorization', `Bearer ${token}`)
+		.send(tmpBlog)
+	const tmpBlogId = response.body.id
 	await api
-		.delete(`/api/blogs/${idToBeDeleted}`)
+		.delete(`/api/blogs/${tmpBlogId}`)
+		.set('Authorization', `Bearer ${token}`)
 		.expect(204)
-	const blogsAtEnd = await helper.blogsInDb()
-	expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length-1)
 }, 100000)
 
-test('HTTP POST by id', async () => {
-	const blogsAtBegin = await helper.blogsInDb()
-	const idToBeUpdated = blogsAtBegin[0].id
-	const unupdatedBlog = blogsAtBegin[0]
-	const blog = { ...unupdatedBlog, likes: unupdatedBlog.likes+1 }
-	const updatedBlog = await api
-		.put(`/api/blogs/${idToBeUpdated}`)
-		.send(blog)
-	expect(updatedBlog.body.likes).toBe(unupdatedBlog.likes+1)
+test('update a blog, the creator and the updater is the same user', async () => {
+	// const blogsAtBegin = await helper.blogsInDb()
+	// const idToBeUpdated = blogsAtBegin[0].id
+	// const unupdatedBlog = blogsAtBegin[0]
+	// const blog = { ...unupdatedBlog, likes: unupdatedBlog.likes+1 }
+	// const updatedBlog = await api
+	// 	.put(`/api/blogs/${idToBeUpdated}`)
+	// 	.send(blog)
+	// expect(updatedBlog.body.likes).toBe(unupdatedBlog.likes+1)
+	const tmpBlog = 	{
+		title: 'tmp blog',
+		author: 'Michael Chan',
+		url: 'https://reactpatterns.com/',
+		likes: 7,
+	}
+	const updatedTmpBlog = 	{
+		title: 'tmp blog',
+		author: 'Michael Chan',
+		url: 'https://reactpatterns.com/',
+		likes: tmpBlog.likes + 1,
+	}
+	const postResponse = await api
+		.post('/api/blogs')
+		.set('Authorization', `Bearer ${token}`)
+		.send(tmpBlog)
+	const tmpBlogId = postResponse.body.id
+	const putResponse = await api
+		.put(`/api/blogs/${tmpBlogId}`)
+		.set('Authorization', `Bearer ${token}`)
+		.send(updatedTmpBlog)
+	expect(putResponse.body.likes).toBe(tmpBlog.likes+1)
 }, 100000)
 
 //after all close the mongoose connection

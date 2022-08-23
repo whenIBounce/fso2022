@@ -51,7 +51,6 @@ const usersInDb = async () => {
 }
 
 const createAndLoginUser = async () => {
-
 	const root = new User({
 		username: 'aaa',
 		name: 'Superuser',
