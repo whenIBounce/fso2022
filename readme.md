@@ -35,6 +35,7 @@ Full Stack Open Course 2022
       - [Mongoose Models](#mongoose-models)
       - [SchemaType](#schematype)
       - [Validation](#validation)
+- [Part 4](#part-4)
 
 # Introduction
 [Full Stack Open 2022: Deep Dive Into Modern Web Development](https://fullstackopen.com/en/)
@@ -274,6 +275,4 @@ schema.<span class="hljs-title function_">path</span>(<span class="hljs-string">
 
   <code>{ runValidators: true, context: 'query' }</code>
 
- 
-
-  
+# Part 4
