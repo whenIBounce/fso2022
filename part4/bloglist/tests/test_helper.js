@@ -50,11 +50,11 @@ const usersInDb = async () => {
 	return users.map(user => user.toJSON())
 }
 
-const createAndLoginUser = async () => {
+const createAndLoginUser = async (username, name, password) => {
 	const root = new User({
-		username: 'aaa',
-		name: 'Superuser',
-		password: 'salainen'
+		username: username,
+		name: name,
+		password: password
 	})
 	const user = await root.save()
 	const userForToken = {
@@ -62,7 +62,6 @@ const createAndLoginUser = async () => {
 		id: user._id
 	}
 	const token =  await jwt.sign(userForToken, process.env.SECRET)
-	console.log(`token created ${token}`)
 	return token
 }
 

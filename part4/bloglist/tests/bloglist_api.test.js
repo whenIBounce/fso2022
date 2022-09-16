@@ -13,24 +13,13 @@ let token = null
 beforeEach(async () => {
 	await Blog.deleteMany({})
 	await User.deleteMany({})
-	token = await helper.createAndLoginUser()
+	token = await helper.createAndLoginUser('user1', 'LaoChang', '666999399')
 	// let blogObjects = helper.initialBlogs.map(blog => new Blog(blog))
 	// let promiseArray = blogObjects.map(blogObject => blogObject.save())
 	// await Promise.all(promiseArray)
 }, 1000000)
 
 //start test
-
-test('all blogs are returned', async () => {
-	const response = await api.get('/api/blogs')
-	expect(response.body).toHaveLength(helper.initialBlogs.length)
-}, 100000)
-
-test('identifier property of the blog posts is named id', async () => {
-	const response = await api.get('/api/blogs')
-	expect(response.body[0].id).toBeDefined()
-}, 100000)
-
 test('creates a blog with a token', async () => {
 
 	const blogToSave = {
@@ -50,7 +39,7 @@ test('creates a blog with a token', async () => {
 	const blogsAtEnd = await helper.blogsInDb()
 	expect(blogsAtEnd).toHaveLength(1)
 	const titles = blogsAtEnd.map(blog => blog.title)
-	expect(titles).toContain('create a new blog with token')
+	expect(titles).toContain('create a blog with a valid token')
 
 }, 100000)
 
@@ -120,6 +109,28 @@ test('delete a blog, the creator and the deletor is the same user', async () => 
 		.delete(`/api/blogs/${tmpBlogId}`)
 		.set('Authorization', `Bearer ${token}`)
 		.expect(204)
+}, 100000)
+
+test('delete a blog, the creator and the deletor is a different user', async () => {
+	const tmpBlog = 	{
+		title: 'tmp blog',
+		author: 'Michael Chan',
+		url: 'https://reactpatterns.com/',
+		likes: 7,
+	}
+	const postRes = await api
+		.post('/api/blogs')
+		.set('Authorization', `Bearer ${token}`)
+		.send(tmpBlog)
+	const tmpBlogId = postRes.body.id
+
+	const anotherUserToken = await helper.createAndLoginUser('user2', 'HuanZi', '666999399')
+
+	const deleteRes = await api
+		.delete(`/api/blogs/${tmpBlogId}`)
+		.set('Authorization', `Bearer ${anotherUserToken}`)
+		.expect(401)
+	expect(deleteRes.body.error).toEqual('A blog can be deleted only by the user who added the blog.')
 }, 100000)
 
 test('update a blog, the creator and the updater is the same user', async () => {
